@@ -64,10 +64,13 @@ conda activate rnaseq_env </pre>
 6. Visualization and Interpretation
 
 **STEP 1. DATA ACQUISTION**
+
 **SAMPLE AND REFERENCE GENOME**
+
 This project uses publicly available RNA-Seq datasets and reference genome files for Arabidopsis thaliana to analyze transcriptional responses under drought stress. 
 
 **RNA-Seq Sample Data**
+
 The following paired-end samples were downloaded from the European Nucleotide Archive (ENA): 
 
 -Control Sample: SRR5489633 
@@ -84,6 +87,7 @@ wget https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR548/006/SRR5489636/SRR5489636_1.fas
 wget https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR548/006/SRR5489636/SRR5489636_2.fastq.gz </pre>
 
 **Reference Genome and Annotation (TAIR10)**
+
 Reference files were downloaded from Ensembl Plants:
 
 <pre>bash
@@ -96,7 +100,8 @@ wget ftp://ftp.ensemblgenomes.org/pub/release-59/plants/gtf/arabidopsis_thaliana
 # Unzip downloaded files
 gunzip *.gz </pre>
 
-**STEP 2.  Quality Control
+**STEP 2.  QUALITY CONTROL**
+
 Check the quality of the raw FASTQ files using FastQC and summarize all reports with MultiQC.
 
  Directory: qc_reports/
@@ -108,7 +113,8 @@ multiqc . </pre>
 
 Output: Individual .html QC reports and a combined MultiQC report.
 
-**STEP 3. GENOME ALIGNMENT** 
+**STEP 3. GENOME ALIGNMENT**
+
 Align clean reads to the reference genome using HISAT2 and convert, sort, and index with SAMtools.
 
 Directory: alignment/
@@ -133,6 +139,7 @@ samtools sort drought.bam -o drought.sorted.bam
 samtools index drought.sorted.bam </pre>
 
 **STEP4. TRANSCRIPT ASSEMBLY AND QUANTIFICATION**
+
 Use StringTie to assemble transcripts and estimate their expression levels. Then generate a count matrix using the provided script prepDE.py.
 
 Directory: quantification/
@@ -152,7 +159,8 @@ Sample sample_list.txt content:
 control	control/control.gtf
 drought	drought/drought.gtf </pre>
 
-**STEP 5. DIFFERENTIAL GENE EXPRESSION ANALYSIS**
+**STEP 5. DIFFERENTIAL GENE EXPRESSION ANALYSIS** 
+
 Perform DEG analysis using DESeq2 in R, based on the count matrix generated.
 
 Directory: DEG_analysis/
@@ -177,7 +185,8 @@ resOrdered <- res[order(res$padj),]
 # Export DEGs
 write.csv(as.data.frame(resOrdered), "DEGs_results.csv") </pre>
 
-**STEP 6. VISUALIZATION AND INTERPRETATION**
+**STEP 6. VISUALIZATION AND INTERPRETATION**  
+
 Visualize expression differences using PCA, Heatmaps, and Volcano plots in R.
 
 Directory: visualizations/
@@ -201,13 +210,9 @@ EnhancedVolcano(res,
 **CONCLUSION**
 
 This project successfully demonstrated a complete RNA-Seq analysis pipeline—from raw data acquisition to biological interpretation of differentially expressed genes—in Arabidopsis thaliana under drought stress. Using robust tools such as HISAT2, StringTie, and DESeq2, we were able to:
-
 Identify genes that are significantly upregulated or downregulated during drought conditions.
-
 Understand the molecular response of Arabidopsis to abiotic stress.
-
 Highlight potential stress-responsive genes that could be valuable targets for further functional studies or genetic engineering to improve drought tolerance.
-
 This workflow is adaptable and can be extended to study transcriptomic responses in other organisms or under different experimental conditions.
 
 **KEY LEARNINGS** 
